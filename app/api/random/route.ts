@@ -2,6 +2,8 @@ import { readdirSync, readFileSync } from "fs";
 
 import path from "path";
 
+export const dynamic = "force-dynamic";
+
 const nekoDir = "./nekos/beast-tamer/kanade";
 const nekos = readdirSync(nekoDir);
 
