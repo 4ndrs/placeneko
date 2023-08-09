@@ -13,5 +13,10 @@ export const GET = async () => {
   const nekoPath = path.join(nekoDir, nekos[randomIndex]);
   const nekoBuffer = readFileSync(nekoPath);
 
-  return new Response(nekoBuffer, { headers: { "Content-Type": "image/jpg" } });
+  return new Response(nekoBuffer, {
+    headers: {
+      "Content-Type": "image/jpg",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 };
