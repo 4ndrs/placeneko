@@ -4,22 +4,22 @@ import path from "path";
 
 export const dynamic = "force-dynamic";
 
-const kanade = readdirSync(
-  path.join(process.cwd(), "nekos/beast-tamer/kanade"),
-  { withFileTypes: true },
+const kanadePath = path.join(process.cwd(), "nekos/beast-tamer/kanade");
+const kanades = readdirSync(kanadePath).map((filename) =>
+  path.join(kanadePath, filename),
 );
 
-const fran = readdirSync(path.join(process.cwd(), "nekos/tenken/fran"), {
-  withFileTypes: true,
-});
+const franPath = path.join(process.cwd(), "nekos/tenken/fran");
+const frans = readdirSync(franPath).map((filename) =>
+  path.join(franPath, filename),
+);
 
-const nekos = [...kanade, ...fran];
+const nekos = [...kanades, ...frans];
 
 export const GET = async () => {
   const randomIndex = Math.floor(Math.random() * nekos.length);
 
-  const nekoPath = path.join(nekos[randomIndex].path, nekos[randomIndex].name);
-  const nekoBuffer = readFileSync(nekoPath);
+  const nekoBuffer = readFileSync(nekos[randomIndex]);
 
   return new Response(nekoBuffer, {
     headers: {
