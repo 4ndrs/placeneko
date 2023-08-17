@@ -14,9 +14,30 @@ const frans = readdirSync(franPath).map((filename) =>
   path.join(franPath, filename),
 );
 
-const nekos = [...kanades, ...frans];
+export const GET = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
 
-export const GET = async () => {
+  let nekos: string[];
+
+  const nekoFilter = searchParams.get("nekos")?.split(",") || ["all"];
+
+  const filterHasAllAvailableNekos =
+    nekoFilter.includes("all") ||
+    (nekoFilter.includes("kanade") && nekoFilter.includes("fran"));
+
+  const filterDoesNotHaveValidNekos =
+    !nekoFilter.includes("all") &&
+    !nekoFilter.includes("kanade") &&
+    !nekoFilter.includes("fran");
+
+  if (filterHasAllAvailableNekos || filterDoesNotHaveValidNekos) {
+    nekos = [...kanades, ...frans];
+  } else if (nekoFilter.includes("kanade")) {
+    nekos = [...kanades];
+  } else {
+    nekos = [...frans];
+  }
+
   const randomIndex = Math.floor(Math.random() * nekos.length);
 
   const nekoBuffer = readFileSync(nekos[randomIndex]);
